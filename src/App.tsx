@@ -1,5 +1,5 @@
-function App() {
-  return <div></div>;
-}
+import { Routes } from "./routes";
 
-export default App;
+export const App = () => {
+  return <Routes></Routes>;
+};
