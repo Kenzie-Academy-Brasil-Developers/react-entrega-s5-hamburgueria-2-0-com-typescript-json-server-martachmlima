@@ -1,4 +1,13 @@
-import { Box, Center, Flex, Heading, HStack, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Center,
+  Flex,
+  Heading,
+  HStack,
+  Image,
+  Text,
+} from "@chakra-ui/react";
 import { FaTrash } from "react-icons/fa";
 import { useAuth } from "../../contexts/AuthContext";
 import { theme } from "../../styles/theme";
@@ -18,7 +27,7 @@ interface CardProps {
 }
 
 export const ProductCard = ({ product }: CardProps) => {
-  const { deleteProduct } = useProducts();
+  const { deleteProduct, addToCart } = useProducts();
   const { accessToken, user } = useAuth();
 
   return (
@@ -33,9 +42,23 @@ export const ProductCard = ({ product }: CardProps) => {
       w={["80vw", "auto"]}
     >
       <Flex justify="space-between">
+        <Box>
+          <Image src={product.img} />
+        </Box>
         <Heading as="h1" size="md">
           {product.name}
         </Heading>
+        <Box w="100%" mt="4">
+          <Text> {product.category} </Text>
+          <Text>
+            R{"$ "}
+            {Number(product.price).toFixed(2)}
+          </Text>
+        </Box>
+        <Button onClick={() => addToCart(product, accessToken)}>
+          Adicionar ao carrinho
+        </Button>
+
         <HStack spacing="4">
           <Center
             as="button"
@@ -51,11 +74,6 @@ export const ProductCard = ({ product }: CardProps) => {
           </Center>
         </HStack>
       </Flex>
-
-      <Box w="100%" mt="4">
-        <Text> {product.category} </Text>
-        <Text>{product.price}</Text>
-      </Box>
     </Box>
   );
 };

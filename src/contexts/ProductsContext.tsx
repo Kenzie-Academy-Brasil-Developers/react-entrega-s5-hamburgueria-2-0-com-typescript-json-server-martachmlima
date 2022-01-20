@@ -1,6 +1,8 @@
 import { ReactNode, useCallback, useContext, useState } from "react";
 import { createContext } from "react";
 import { api } from "../services/api";
+import { AxiosResponse } from "axios";
+import { toast } from "react-hot-toast";
 
 interface ProductProviderProps {
   children: ReactNode;
@@ -19,9 +21,12 @@ interface ProductContextData {
   products: Product[];
   loadProducts: () => Promise<void>;
   deleteProduct: (productId: string, accessToken: string) => Promise<void>;
+  addToCart: (data: Product, accessToken: string) => Promise<void>;
   searchProduct: (productName: string) => Promise<void>;
   notFound: boolean;
   productNotFound: string;
+  /* loadCart: (accessToken: string) => Promise<void>; */
+  cart: Product[];
 }
 
 const ProductContext = createContext<ProductContextData>(
@@ -41,6 +46,7 @@ const ProductProvider = ({ children }: ProductProviderProps) => {
   const [products, setProducts] = useState<Product[]>([]);
   const [notFound, setNotFound] = useState(false);
   const [productNotFound, setProductNotFound] = useState("");
+  const [cart, setCart] = useState<Product[]>([]);
 
   const loadProducts = useCallback(async () => {
     try {
@@ -50,25 +56,6 @@ const ProductProvider = ({ children }: ProductProviderProps) => {
       console.log(err);
     }
   }, []);
-
-  const deleteProduct = useCallback(
-    async (productId: string, accessToken: string) => {
-      await api
-        .delete(`/cart/${productId}`, {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        })
-        .then((_) => {
-          const filteredProducts = products.filter(
-            (product) => product.id !== productId
-          );
-          setProducts(filteredProducts);
-        })
-        .catch((err) => console.log(err));
-    },
-    [products]
-  );
 
   const searchProduct = useCallback(async (productName: string) => {
     const response = await api.get(`/products?name_like=${productName}`);
@@ -82,6 +69,59 @@ const ProductProvider = ({ children }: ProductProviderProps) => {
     setProducts(response.data);
   }, []);
 
+  const addToCart = useCallback(async (data: Product, accessToken: string) => {
+    api
+      .post("/cart", data, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then((response: AxiosResponse<Product>) => {
+        setCart([...cart, response.data]);
+        toast.success("Produto adicionado no carrinho com sucesso");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    console.log(data);
+  }, []);
+
+  /*   const loadCart = useCallback(async (accessToken: string) => {
+    api
+      .get("/cart", {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then((response: AxiosResponse<Product>) => {
+        setCart([...cart, response.data]);
+      })
+      .catch((err) => console.log(err));
+  }, []); */
+
+  /* const removeAllProducts = () => {
+    
+  } */
+
+  const deleteProduct = useCallback(
+    async (productId: string, accessToken: string) => {
+      await api
+        .delete(`/cart/${productId}`, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        })
+        .then((_) => {
+          const filteredProducts = products.filter(
+            (product) => product.id !== productId
+          );
+          setCart(filteredProducts);
+        })
+        .catch((err) => console.log(err));
+    },
+    [products]
+  );
+
   return (
     <ProductContext.Provider
       value={{
@@ -91,6 +131,9 @@ const ProductProvider = ({ children }: ProductProviderProps) => {
         productNotFound,
         products,
         searchProduct,
+        addToCart,
+        /* loadCart, */
+        cart,
       }}
     >
       {children}
