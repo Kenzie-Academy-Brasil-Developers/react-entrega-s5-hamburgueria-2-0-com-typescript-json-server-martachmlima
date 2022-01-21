@@ -4,9 +4,11 @@ import { theme } from "../../styles/theme";
 import { useAuth } from "../../contexts/AuthContext";
 import { useHistory } from "react-router-dom";
 import { Search } from "./Search";
+import { useProducts } from "../../contexts/ProductsContext";
 
 export const Header = () => {
-  const { user, signOut } = useAuth();
+  const { signOut } = useAuth();
+  const { cart } = useProducts();
 
   const history = useHistory();
 
@@ -22,16 +24,28 @@ export const Header = () => {
       </Flex>
       <Flex justifyContent="end">
         <Search />
-        <Center
-          mt="4"
+        <Flex
+          flexDirection="column"
+          mt="7"
           ml="auto"
           as="button"
           fontSize="2rem"
           onClick={() => history.push("/cart")}
           paddingRight="30px"
         >
+          <Text
+            fontSize="sm"
+            w="20px"
+            bg="green.500"
+            color="white"
+            borderRadius="100%"
+            ml="8px"
+            mb="-10px"
+          >
+            {cart.length}
+          </Text>
           <FaCartPlus color={theme.colors.gray[300]} />
-        </Center>
+        </Flex>
         <Center
           mt="4"
           ml="auto"

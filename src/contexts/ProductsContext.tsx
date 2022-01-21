@@ -85,21 +85,22 @@ const ProductProvider = ({ children }: ProductProviderProps) => {
       });
   }, []);
 
-  const loadCart = useCallback(
-    async (accessToken: string) => {
-      api
-        .get("/cart", {
+  const loadCart = useCallback(async (accessToken: string) => {
+    if (accessToken) {
+      try {
+        const response = await api.get("/cart", {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },
-        })
-        .then((response: AxiosResponse<Product>) => {
-          setCart([...cart, response.data]);
-        })
-        .catch((err) => console.log(err));
-    },
-    [cart]
-  );
+        });
+        if (response.data.length !== 0) {
+          setCart(response.data);
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  }, []);
 
   /* const removeAllProducts = () => {
     

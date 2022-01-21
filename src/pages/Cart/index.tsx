@@ -14,9 +14,9 @@ export const Cart = () => {
   const [loading, setLoading] = useState(true);
   const history = useHistory();
 
-  /*  useEffect(() => {
+  useEffect(() => {
     loadCart(accessToken).then((res) => setLoading(false));
-  }, []); */
+  }, []);
 
   return (
     <>
