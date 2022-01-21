@@ -15,17 +15,16 @@ interface Product {
 }
 
 export const Home = () => {
-  const [loading, setLoading] = useState(true);
   const { products, loadProducts } = useProducts();
 
   useEffect(() => {
-    loadProducts().then((res) => setLoading(false));
+    loadProducts();
   }, []);
 
   return (
     <>
       <Header />
-      <ProductList loading={loading} products={products} />
+      <ProductList products={products} />
     </>
   );
 };

@@ -69,22 +69,6 @@ const ProductProvider = ({ children }: ProductProviderProps) => {
     setProducts(response.data);
   }, []);
 
-  const addToCart = useCallback(async (data: Product, accessToken: string) => {
-    api
-      .post("/cart", data, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      })
-      .then((response: AxiosResponse<Product>) => {
-        setCart([...cart, response.data]);
-        toast.success("Produto adicionado no carrinho com sucesso");
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
-
   const loadCart = useCallback(async (accessToken: string) => {
     if (accessToken) {
       try {
@@ -102,9 +86,21 @@ const ProductProvider = ({ children }: ProductProviderProps) => {
     }
   }, []);
 
-  /* const removeAllProducts = () => {
-    
-  } */
+  const addToCart = useCallback(async (data: Product, accessToken: string) => {
+    api
+      .post("/cart", data, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then((response: AxiosResponse<Product>) => {
+        setCart([...cart, response.data]);
+        toast.success("Produto adicionado no carrinho com sucesso");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
   const deleteProduct = useCallback(
     async (productId: string, accessToken: string) => {

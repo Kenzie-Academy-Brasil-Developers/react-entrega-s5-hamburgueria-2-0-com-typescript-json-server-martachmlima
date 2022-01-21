@@ -2,7 +2,6 @@ import { CartList } from "./CartList";
 import { useEffect } from "react";
 import { useProducts } from "../../contexts/ProductsContext";
 import { useAuth } from "../../contexts/AuthContext";
-import { useState } from "react";
 import { Box, Text, Center, Flex } from "@chakra-ui/react";
 import { FaHome } from "react-icons/fa";
 import { useHistory } from "react-router-dom";
@@ -11,11 +10,11 @@ import { AsideTotal } from "./AsideTotal";
 export const Cart = () => {
   const { cart, loadCart } = useProducts();
   const { accessToken } = useAuth();
-  const [loading, setLoading] = useState(true);
+
   const history = useHistory();
 
   useEffect(() => {
-    loadCart(accessToken).then((res) => setLoading(false));
+    loadCart(accessToken);
   }, []);
 
   return (
@@ -56,7 +55,7 @@ export const Cart = () => {
           </Center>
         ) : (
           <Box>
-            <CartList loading={loading} products={cart} />
+            <CartList products={cart} />
             <AsideTotal />
           </Box>
         )}

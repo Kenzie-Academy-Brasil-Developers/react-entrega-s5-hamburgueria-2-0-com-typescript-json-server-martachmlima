@@ -19,14 +19,12 @@ interface SignUpFormProps {
   handleSignUp: () => void;
   errors: DeepMap<FieldValues, FieldError>;
   register: UseFormRegister<SignUpData>;
-  loading: boolean;
 }
 
 export const SignUpForm = ({
   handleSignUp,
   errors,
   register,
-  loading,
 }: SignUpFormProps) => {
   const history = useHistory();
 
@@ -83,7 +81,6 @@ export const SignUpForm = ({
       </VStack>
       <Button
         mt="8"
-        isLoading={loading}
         bg="gray.100"
         w="100%"
         color="gray.400"

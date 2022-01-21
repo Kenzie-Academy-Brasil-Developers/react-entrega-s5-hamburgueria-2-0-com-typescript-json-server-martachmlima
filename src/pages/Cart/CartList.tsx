@@ -11,11 +11,10 @@ interface Product {
 }
 
 interface ProductListProps {
-  loading: boolean;
   products: Product[];
 }
 
-export const CartList = ({ loading, products }: ProductListProps) => (
+export const CartList = ({ products }: ProductListProps) => (
   <Box>
     <Grid
       w="100%"

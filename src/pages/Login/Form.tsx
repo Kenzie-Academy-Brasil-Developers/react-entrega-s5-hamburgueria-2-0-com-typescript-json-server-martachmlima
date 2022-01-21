@@ -1,4 +1,4 @@
-import { Box, Button, Grid, Heading, Text, VStack } from "@chakra-ui/react";
+import { Box, Button, Grid, Text, VStack } from "@chakra-ui/react";
 import { DeepMap, FieldError, UseFormRegister } from "react-hook-form";
 import { FieldValues } from "react-hook-form";
 import { useHistory } from "react-router-dom";
@@ -13,14 +13,12 @@ interface LoginFormProps {
   handleSignIn: () => void;
   errors: DeepMap<FieldValues, FieldError>;
   register: UseFormRegister<SignInData>;
-  loading: boolean;
 }
 
 export const LoginForm = ({
   handleSignIn,
   errors,
   register,
-  loading,
 }: LoginFormProps) => {
   const history = useHistory();
   return (
@@ -59,7 +57,6 @@ export const LoginForm = ({
       </VStack>
       <VStack mt="4" spacing="5">
         <Button
-          isLoading={loading}
           bg="green.500"
           w="100%"
           color="white"

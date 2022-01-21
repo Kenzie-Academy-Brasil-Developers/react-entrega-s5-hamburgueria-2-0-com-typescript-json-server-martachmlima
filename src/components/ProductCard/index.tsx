@@ -1,18 +1,6 @@
-import {
-  Box,
-  Button,
-  Center,
-  Flex,
-  Heading,
-  HStack,
-  Image,
-  Text,
-} from "@chakra-ui/react";
-import { FaTrash } from "react-icons/fa";
+import { Box, Button, Flex, Heading, Image, Text } from "@chakra-ui/react";
 import { useAuth } from "../../contexts/AuthContext";
-import { theme } from "../../styles/theme";
 import { useProducts } from "../../contexts/ProductsContext";
-import { getParseTreeNode } from "typescript";
 
 interface Product {
   id: string;
@@ -30,7 +18,7 @@ interface CardProps {
 
 export const ProductCard = ({ product, isRemovable = false }: CardProps) => {
   const { deleteProduct, addToCart } = useProducts();
-  const { accessToken, user } = useAuth();
+  const { accessToken } = useAuth();
 
   return (
     <Box

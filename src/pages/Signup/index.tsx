@@ -2,7 +2,6 @@ import { Flex } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useState } from "react";
 import { api } from "../../services/api";
 import { useHistory } from "react-router-dom";
 import { SignUpForm } from "./Form";
@@ -27,8 +26,6 @@ interface SignUpData {
 }
 
 export const Signup = () => {
-  const [loading, setLoading] = useState(false);
-
   const {
     formState: { errors },
     register,
@@ -38,16 +35,12 @@ export const Signup = () => {
   });
 
   const handleSignUp = ({ name, email, password }: SignUpData) => {
-    setLoading(true);
-
     api
       .post("/register", { name, email, password })
       .then((response) => {
-        setLoading(false);
         toast.success("Cadastro finalizado com sucesso!");
       })
       .catch((err) => {
-        setLoading(false);
         toast.error("Email já cadastrado!");
       });
   };
@@ -67,7 +60,6 @@ export const Signup = () => {
         <SignUpForm
           errors={errors}
           handleSignUp={handleSubmit(handleSignUp)}
-          loading={loading}
           register={register}
         />
       </Flex>

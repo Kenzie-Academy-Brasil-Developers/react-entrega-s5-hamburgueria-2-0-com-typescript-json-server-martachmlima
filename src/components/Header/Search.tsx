@@ -2,7 +2,7 @@ import { Center, Flex } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { FaSearch } from "react-icons/fa";
 import { theme } from "../../styles/theme";
-import { Input } from "../../components/Input";
+import { Input } from "../Input";
 import { useProducts } from "../../contexts/ProductsContext";
 
 interface SearchData {

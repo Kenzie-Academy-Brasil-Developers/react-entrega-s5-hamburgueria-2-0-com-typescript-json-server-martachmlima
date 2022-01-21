@@ -1,4 +1,4 @@
-import { Box, Grid, Flex } from "@chakra-ui/react";
+import { Box, Grid } from "@chakra-ui/react";
 import { ProductCard } from "../../components/ProductCard";
 
 interface Product {
@@ -11,11 +11,10 @@ interface Product {
 }
 
 interface ProductListProps {
-  loading: boolean;
   products: Product[];
 }
 
-export const ProductList = ({ loading, products }: ProductListProps) => (
+export const ProductList = ({ products }: ProductListProps) => (
   <Box>
     <Grid
       wrap="wrap"
