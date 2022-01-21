@@ -1,4 +1,4 @@
-import { Box, Grid } from "@chakra-ui/react";
+import { Box, Flex } from "@chakra-ui/react";
 import { ProductCard } from "../../components/ProductCard";
 
 interface Product {
@@ -16,16 +16,19 @@ interface ProductListProps {
 
 export const CartList = ({ products }: ProductListProps) => (
   <Box>
-    <Grid
-      w="100%"
-      templateColumns="repeat(auto-fill, minmax(420px, 1fr))"
-      gap={10}
+    <Flex
+      flexWrap={["nowrap", "nowrap", "wrap"]}
+      justifyContent={["start", "start", "space-evenly"]}
+      w="98vw"
+      overflow={["scroll", "scroll", "auto"]}
       paddingX="8"
       mt="8"
+      mb="8"
+      flexDirection="row"
     >
       {products.map((product) => (
         <ProductCard key={product.id} product={product} isRemovable={true} />
       ))}
-    </Grid>
+    </Flex>
   </Box>
 );

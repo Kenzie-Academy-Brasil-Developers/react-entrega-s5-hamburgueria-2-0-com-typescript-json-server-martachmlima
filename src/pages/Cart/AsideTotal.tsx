@@ -1,8 +1,10 @@
 import { Flex, Button, Text, Box } from "@chakra-ui/react";
 import { useProducts } from "../../contexts/ProductsContext";
+import { useAuth } from "../../contexts/AuthContext";
 
 export const AsideTotal = () => {
-  const { cart } = useProducts();
+  const { cart, clearCart } = useProducts();
+  const { accessToken } = useAuth();
   const totalPrice = cart.reduce(
     (currentTotal, newValue) => currentTotal + Number(newValue.price),
     0
@@ -20,16 +22,16 @@ export const AsideTotal = () => {
         Total: R{"$ "}
         {totalPrice.toFixed(2)}
       </Text>
-      {/* <Button
+      <Button
         mt="6"
         ml="3"
         color="white"
         bg="red.500"
-        onClick={() => {}}
+        onClick={() => clearCart(cart, accessToken)}
         _hover={{ bg: "red.600" }}
       >
         Remover todos
-      </Button> */}
+      </Button>
     </Flex>
   );
 };

@@ -27,6 +27,7 @@ interface ProductContextData {
   productNotFound: string;
   loadCart: (accessToken: string) => Promise<void>;
   cart: Product[];
+  clearCart: (cart: Product[], accessToken: string) => Promise<void>;
 }
 
 const ProductContext = createContext<ProductContextData>(
@@ -121,6 +122,24 @@ const ProductProvider = ({ children }: ProductProviderProps) => {
     [cart]
   );
 
+  const clearCart = useCallback(
+    async (cart: Product[], accessToken: string) => {
+      for (let i = 0; i < cart.length; i++) {
+        await api
+          .delete(`/cart/${cart[i].id}`, {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          })
+          .then((_) => {
+            setCart([]);
+          })
+          .catch((err) => console.log(err));
+      }
+    },
+    [cart]
+  );
+
   return (
     <ProductContext.Provider
       value={{
@@ -133,6 +152,7 @@ const ProductProvider = ({ children }: ProductProviderProps) => {
         addToCart,
         loadCart,
         cart,
+        clearCart,
       }}
     >
       {children}

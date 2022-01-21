@@ -28,49 +28,64 @@ export const ProductCard = ({ product, isRemovable = false }: CardProps) => {
       borderWidth="2px solid"
       borderColor="gray.100"
       boxShadow="base"
-      w={["270px", "300px"]}
-      h="346px"
+      w="300px"
+      h="370px"
+      marginX="4"
+      marginBottom="4"
     >
       <Flex flexDirection="column" w="100%">
-        <Flex bg="gray.0" w="100%" h="150px" justifyContent="center">
-          <Image src={product.img} h="157px" />
+        <Flex
+          bg="gray.0"
+          w="100%"
+          h={["140px", "140px", "170px"]}
+          justifyContent="center"
+        >
+          <Image src={product.img} h={["140px", "140px", "170px"]} />
         </Flex>
-        <Heading ml="3" as="h1" size="md" mt="4" color="gray.600">
-          {product.name}
-        </Heading>
-        <Box w="100%" mt="4" ml="3">
-          <Text color="gray.300"> {product.category} </Text>
+        <Flex
+          flexDirection="column"
+          paddingX="4"
+          justifyContent="space-between"
+          h={["220px", "220px", "180px"]}
+        >
+          <Heading paddingEnd="2" as="h1" size="md" mt="4" color="gray.600">
+            {product.name}
+          </Heading>
+
+          <Text color="gray.300" mt="4">
+            {" "}
+            {product.category}{" "}
+          </Text>
           <Text mt="4" color="green.500" fontWeight="bold">
             R{"$ "}
             {Number(product.price).toFixed(2)}
           </Text>
-        </Box>
-        {!isRemovable && (
-          <Button
-            mt="4"
-            ml="3"
-            color="white"
-            bg="gray.400"
-            w="106px"
-            onClick={() => addToCart(product, accessToken)}
-            _hover={{ bg: "green.500" }}
-          >
-            Adicionar
-          </Button>
-        )}
-        {isRemovable && (
-          <Button
-            mt="4"
-            ml="3"
-            color="white"
-            bg="gray.400"
-            w="106px"
-            onClick={() => deleteProduct(product.id, accessToken)}
-            _hover={{ bg: "red.600" }}
-          >
-            Remover
-          </Button>
-        )}
+
+          {!isRemovable && (
+            <Button
+              color="white"
+              bg="gray.400"
+              w="106px"
+              onClick={() => addToCart(product, accessToken)}
+              _hover={{ bg: "green.500" }}
+            >
+              Adicionar
+            </Button>
+          )}
+          {isRemovable && (
+            <Button
+              mt="4"
+              ml="3"
+              color="white"
+              bg="gray.400"
+              w="106px"
+              onClick={() => deleteProduct(product.id, accessToken)}
+              _hover={{ bg: "red.600" }}
+            >
+              Remover
+            </Button>
+          )}
+        </Flex>
       </Flex>
     </Box>
   );
