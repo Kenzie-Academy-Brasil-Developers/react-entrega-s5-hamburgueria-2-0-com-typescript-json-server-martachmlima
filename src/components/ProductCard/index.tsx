@@ -12,6 +12,7 @@ import { FaTrash } from "react-icons/fa";
 import { useAuth } from "../../contexts/AuthContext";
 import { theme } from "../../styles/theme";
 import { useProducts } from "../../contexts/ProductsContext";
+import { getParseTreeNode } from "typescript";
 
 interface Product {
   id: string;
@@ -24,55 +25,64 @@ interface Product {
 
 interface CardProps {
   product: Product;
+  isRemovable?: boolean;
 }
 
-export const ProductCard = ({ product }: CardProps) => {
+export const ProductCard = ({ product, isRemovable = false }: CardProps) => {
   const { deleteProduct, addToCart } = useProducts();
   const { accessToken, user } = useAuth();
 
   return (
     <Box
       cursor="pointer"
-      _hover={{ transform: "translateY(-7px)", borderColor: "gray.100" }}
+      _hover={{ transform: "translateY(-7px)", borderColor: "green.500" }}
       transition="border 0.2s, ease 0s, transform 0.2s"
-      borderWidth="1px"
-      borderColor="gray.50"
+      borderWidth="2px solid"
+      borderColor="gray.100"
       boxShadow="base"
-      padding="7"
-      w={["80vw", "auto"]}
+      w={["270px", "300px"]}
+      h="346px"
     >
-      <Flex justify="space-between">
-        <Box>
-          <Image src={product.img} />
-        </Box>
-        <Heading as="h1" size="md">
+      <Flex flexDirection="column" w="100%">
+        <Flex bg="gray.0" w="100%" h="150px" justifyContent="center">
+          <Image src={product.img} h="157px" />
+        </Flex>
+        <Heading ml="3" as="h1" size="md" mt="4" color="gray.600">
           {product.name}
         </Heading>
-        <Box w="100%" mt="4">
-          <Text> {product.category} </Text>
-          <Text>
+        <Box w="100%" mt="4" ml="3">
+          <Text color="gray.300"> {product.category} </Text>
+          <Text mt="4" color="green.500" fontWeight="bold">
             R{"$ "}
             {Number(product.price).toFixed(2)}
           </Text>
         </Box>
-        <Button onClick={() => addToCart(product, accessToken)}>
-          Adicionar ao carrinho
-        </Button>
-
-        <HStack spacing="4">
-          <Center
-            as="button"
-            w="30px"
-            h="30px"
-            borderWidth="1px"
-            borderRadius="5px"
-            borderColor="gray.200"
-            bgColor="white"
-            onClick={() => deleteProduct(product.id, accessToken)}
+        {!isRemovable && (
+          <Button
+            mt="4"
+            ml="3"
+            color="white"
+            bg="gray.400"
+            w="106px"
+            onClick={() => addToCart(product, accessToken)}
+            _hover={{ bg: "green.500" }}
           >
-            <FaTrash color={theme.colors.gray[300]} />
-          </Center>
-        </HStack>
+            Adicionar
+          </Button>
+        )}
+        {isRemovable && (
+          <Button
+            mt="4"
+            ml="3"
+            color="white"
+            bg="gray.400"
+            w="106px"
+            onClick={() => deleteProduct(product.id, accessToken)}
+            _hover={{ bg: "red.600" }}
+          >
+            Remover
+          </Button>
+        )}
       </Flex>
     </Box>
   );

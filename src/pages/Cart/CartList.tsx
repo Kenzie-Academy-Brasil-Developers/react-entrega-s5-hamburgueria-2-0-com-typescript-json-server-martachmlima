@@ -25,7 +25,7 @@ export const CartList = ({ loading, products }: ProductListProps) => (
       mt="8"
     >
       {products.map((product) => (
-        <ProductCard key={product.id} product={product} />
+        <ProductCard key={product.id} product={product} isRemovable={true} />
       ))}
     </Grid>
   </Box>

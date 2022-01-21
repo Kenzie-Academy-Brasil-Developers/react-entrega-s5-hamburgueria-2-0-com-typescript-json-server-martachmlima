@@ -16,9 +16,7 @@ interface Product {
 
 export const Home = () => {
   const [loading, setLoading] = useState(true);
-  const { user, accessToken } = useAuth();
-  const { products, searchProduct, loadProducts, deleteProduct } =
-    useProducts();
+  const { products, loadProducts } = useProducts();
 
   useEffect(() => {
     loadProducts().then((res) => setLoading(false));

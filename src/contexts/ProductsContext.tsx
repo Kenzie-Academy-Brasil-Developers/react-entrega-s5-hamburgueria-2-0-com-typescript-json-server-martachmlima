@@ -25,7 +25,7 @@ interface ProductContextData {
   searchProduct: (productName: string) => Promise<void>;
   notFound: boolean;
   productNotFound: string;
-  /* loadCart: (accessToken: string) => Promise<void>; */
+  loadCart: (accessToken: string) => Promise<void>;
   cart: Product[];
 }
 
@@ -83,21 +83,23 @@ const ProductProvider = ({ children }: ProductProviderProps) => {
       .catch((err) => {
         console.log(err);
       });
-    console.log(data);
   }, []);
 
-  /*   const loadCart = useCallback(async (accessToken: string) => {
-    api
-      .get("/cart", {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      })
-      .then((response: AxiosResponse<Product>) => {
-        setCart([...cart, response.data]);
-      })
-      .catch((err) => console.log(err));
-  }, []); */
+  const loadCart = useCallback(
+    async (accessToken: string) => {
+      api
+        .get("/cart", {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        })
+        .then((response: AxiosResponse<Product>) => {
+          setCart([...cart, response.data]);
+        })
+        .catch((err) => console.log(err));
+    },
+    [cart]
+  );
 
   /* const removeAllProducts = () => {
     
@@ -112,14 +114,14 @@ const ProductProvider = ({ children }: ProductProviderProps) => {
           },
         })
         .then((_) => {
-          const filteredProducts = products.filter(
+          const filteredProducts = cart.filter(
             (product) => product.id !== productId
           );
           setCart(filteredProducts);
         })
         .catch((err) => console.log(err));
     },
-    [products]
+    [cart]
   );
 
   return (
@@ -132,7 +134,7 @@ const ProductProvider = ({ children }: ProductProviderProps) => {
         products,
         searchProduct,
         addToCart,
-        /* loadCart, */
+        loadCart,
         cart,
       }}
     >
