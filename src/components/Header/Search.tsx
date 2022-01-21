@@ -37,7 +37,7 @@ export const Search = () => {
           bg="green.500"
           position="absolute"
           top="18%"
-          left="80%"
+          left={["71%", "78%"]}
         >
           <FaSearch color={theme.colors.white} />
         </Center>

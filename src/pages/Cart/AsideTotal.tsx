@@ -18,9 +18,9 @@ export const AsideTotal = () => {
         mt="6"
       >
         Total: R{"$ "}
-        {totalPrice}
+        {totalPrice.toFixed(2)}
       </Text>
-      <Button
+      {/* <Button
         mt="6"
         ml="3"
         color="white"
@@ -29,7 +29,7 @@ export const AsideTotal = () => {
         _hover={{ bg: "red.600" }}
       >
         Remover todos
-      </Button>
+      </Button> */}
     </Flex>
   );
 };

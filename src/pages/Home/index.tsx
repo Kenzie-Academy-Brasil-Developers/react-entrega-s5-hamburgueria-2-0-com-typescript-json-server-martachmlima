@@ -1,9 +1,9 @@
 import { Header } from "../../components/Header";
-import { useState } from "react";
 import { useEffect } from "react";
-import { useAuth } from "../../contexts/AuthContext";
 import { useProducts } from "../../contexts/ProductsContext";
 import { ProductList } from "./ProductList";
+import { Search } from "../../components/Header/Search";
+import { Box } from "@chakra-ui/react";
 
 interface Product {
   id: string;
@@ -24,6 +24,9 @@ export const Home = () => {
   return (
     <>
       <Header />
+      <Box ml="2" display={["block", "none"]}>
+        <Search />
+      </Box>
       <ProductList products={products} />
     </>
   );

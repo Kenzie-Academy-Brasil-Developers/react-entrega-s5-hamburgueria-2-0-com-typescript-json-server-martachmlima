@@ -1,4 +1,4 @@
-import { Center, Flex, Heading, Text } from "@chakra-ui/react";
+import { Box, Center, Flex, Heading, Text } from "@chakra-ui/react";
 import { FaCartPlus, FaSignOutAlt } from "react-icons/fa";
 import { theme } from "../../styles/theme";
 import { useAuth } from "../../contexts/AuthContext";
@@ -23,7 +23,9 @@ export const Header = () => {
         </Heading>
       </Flex>
       <Flex justifyContent="end">
-        <Search />
+        <Box display={["none", "block"]}>
+          <Search />
+        </Box>
         <Flex
           flexDirection="column"
           mt="7"
